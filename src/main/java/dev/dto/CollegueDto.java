@@ -1,7 +1,11 @@
 package dev.dto;
 
 import java.time.LocalDate;
-
+/**
+ * 
+ * @author cql-v2
+ *
+ */
 public class CollegueDto {
 
 	private Integer id=null;

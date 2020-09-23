@@ -4,13 +4,18 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dev.entite.Collegue;
 import dev.repository.CollegueRepository;
 
-
+/**
+ * service gestion des Collegue
+ * @author cql-v2
+ *
+ */
 @Service
 public class CollegueService {
 
@@ -20,7 +25,7 @@ public class CollegueService {
 		this.colRepo=colRepo;
 	}
 	
-	//methodes
+	
 	/**
 	 * 
 	 * @return une list d'objet  de tout les collegues
@@ -28,6 +33,17 @@ public class CollegueService {
 	public List<Collegue> getList() {
 		return colRepo.findAll();
 	}
+	/**
+	 * 
+	 * @param id identifiant du collegue recherché
+	 * @return un objet Collegue correspondant au collegue
+	 */
+	public Optional<Collegue> getById(Integer id) {
+		return colRepo.findById(id);
+	}
+	
+	
+	
 	/**	
 	 * 
 	 * @param matricule le matricule recherché
@@ -57,11 +73,64 @@ public class CollegueService {
 		return colRepo.findMatriculeBynom(nom);
 	}
 
+	/**
+	 * 
+	 * @param matricule le matricule du collegue à ajouter
+	 * @param nom le nom du collegue à ajouter
+	 * @param prenom le prenom du collegue à ajouter
+	 * @param email l'email du collegue à ajouter
+	 * @param dateNaissance la date de naissance du collegue à ajouter (format sql)
+	 * @param photoUrl l'url de l'image du collegue à ajouter
+	 * @return un objet collegue.
+	 */
 	@Transactional
 	public Collegue addCollegue(String matricule, String nom, String prenom, String email, LocalDate dateNaissance,
 			String photoUrl) {
 			
 		return colRepo.save(new Collegue(matricule,nom,prenom,email,dateNaissance,photoUrl));
+	}
+
+	
+	
+	/**
+	 * 
+	 * @param id l'id du Collegue
+	 * @param matricule le matricule du Collegue a metre a jour
+	 * @param nom le nom du Collegue a metre a jour
+	 * @param prenom le prenom du Collegue a metre a jour
+	 * @param email l'email du Collegue a metre a jour
+	 * @param dateNaissance la date de naissance du Collegue a metre a jour
+	 * @param photoUrl l'url de l'image du Collegue a metre a jour
+	 * @return un objet collegue
+	 */
+	public Collegue updateCollegue(Integer id, String matricule, String nom, String prenom, String email,
+			LocalDate dateNaissance, String photoUrl) {
+			Optional<Collegue> collegueToUpdate=this.getById(id);
+			if(collegueToUpdate.isPresent()) {
+				collegueToUpdate.get().setMatricule(matricule);
+				collegueToUpdate.get().setNom(nom);
+				collegueToUpdate.get().setPrenom(prenom);
+				collegueToUpdate.get().setDateNaissance(dateNaissance);
+				collegueToUpdate.get().setEmail(email);
+				collegueToUpdate.get().setPhotoUrl(photoUrl);
+			}
+			return colRepo.save(collegueToUpdate.get());
+
+	}
+
+	/**
+	 * 
+	 * @param id id du collegue a supprimer
+	 * @return un boolean
+	 */
+	public String remUser(Integer id) {
+		
+		Optional<Collegue> collegueToRemove=this.getById(id);
+		if(collegueToRemove.isPresent()) {
+			colRepo.delete(collegueToRemove.get());
+			return "Suppression reussi";
+		}
+		return "id non trouvé";
 	}
 	
 	

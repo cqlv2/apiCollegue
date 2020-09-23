@@ -5,7 +5,12 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
+/**
+ * entite Collegue
+ * genere la table collegue
+ * @author cql-v2
+ *
+ */
 @Entity
 @Table(name = "collegue")
 public class Collegue extends GenelarEntity {

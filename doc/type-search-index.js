@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"dev.entite","l":"Collegue"},{"p":"dev.web.collegue","l":"CollegueCtrl"},{"p":"dev.dto","l":"CollegueDto"},{"p":"dev.repository","l":"CollegueRepository"},{"p":"dev","l":"ColleguesApplication"},{"p":"dev.services","l":"CollegueService"},{"p":"dev.entite","l":"GenelarEntity"}]
