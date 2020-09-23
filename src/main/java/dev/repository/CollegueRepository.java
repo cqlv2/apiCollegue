@@ -10,8 +10,8 @@ import dev.entite.Collegue;
 
 public interface CollegueRepository extends JpaRepository<Collegue, Integer>{
 
-	@Query("select c.matricule from Collegue c where c.nom=?1")
-	List<String> findMatriculeBynom(String nom);
+	@Query("select c.matricule from Collegue c ")
+	List<String> findMatricule();
 
 	
 
@@ -20,5 +20,17 @@ public interface CollegueRepository extends JpaRepository<Collegue, Integer>{
 
 	@Query("select c from Collegue c where c.matricule=?1")
 	Optional<Collegue> findByMatricule(String matricule);
+
+
+	@Query("select c.matricule from Collegue c where c.id=?1")
+	Optional<String> findMatriculeById(Integer id);
+
+
+	@Query("select c.matricule from Collegue c where c.nom=?1")
+	Optional<String> findMatriculeByNom(String nom);
+
+
+
+	
 	
 }

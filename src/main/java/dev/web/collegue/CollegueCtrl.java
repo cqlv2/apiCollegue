@@ -1,5 +1,6 @@
 package dev.web.collegue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ import dev.services.CollegueService;
  *
  */
 @RestController
-@RequestMapping("collegue")
+@RequestMapping
 public class CollegueCtrl {
 
 	private CollegueService colServ;
@@ -34,67 +35,96 @@ public class CollegueCtrl {
 		this.colServ = colServ;
 	}
 
-	//methodes
+
 /**
- * url : [SERVER]/collegue/all
+ * url : [SERVER]/collegue
  * @return un json de tous les Collegues en bdd
  */
-	@GetMapping("all")
+	@GetMapping("collegue")
 	public List<Collegue> listCollegue() {
 		return colServ.getList();
 
 	}
 	
 	/**
-	 * 
-	 * @param id identifiant rechercher
-	 * @return un json du Collegue en bdd correspondant a l'id
+	 * url : [SERVER]/collegue/search?type={type}&value={value}
+	 * @param type type de recherche [id, matricule, nom]
+	 * @param value valeur de recherche
+	 * @return une liste de json
 	 */
-	@GetMapping("byid")
-	public Optional<Collegue> getById(@RequestParam Integer id ) {
-		return colServ.getById(id);
+	@GetMapping("collegue/search")
+	public List<Collegue> getCollegue(@RequestParam String type, @RequestParam String value ) {
+		List<Collegue> list=new ArrayList<Collegue>();
+		Optional<Collegue> c=null;
+		
+		switch (type) {
+		case "id":
+			c=colServ.getById(Integer.parseInt(value));
+			if(c.isPresent()) list.add(c.get());
+			return list;
+			
+		case "matricule":
+			
+			c=colServ.getById(Integer.parseInt(value));
+			if(c.isPresent()) list.add(c.get());
+			return list;
+		
+		case "nom":
+			return colServ.getByNom(value);
+		default:
+			return null;
+		}
 	}
 	
 	
 	
-	
-	/**
-	 * url : [SERVER]/collegue/bymatricule?matricule={matricule}
-	 * @param matricule le matricule recherché
-	 * @return un json de tous les Collegues en bdd correspondant au matricule
-	 */
-	@GetMapping("bymatricule")
-	public Optional<Collegue> getByMatricule(@RequestParam String matricule ) {
-		return colServ.getByMatricule(matricule);
-	}
-	
-	/**
-	 * url : [SERVER]/collegue/bynom?nom={nom}
-	 * @param nom le nom recherché
-	 * @return un json de tous les Collegues en bdd correspondant au nom
-	 */
-	@GetMapping("bynom")
-	public List<Collegue> getByNom(@RequestParam String nom ) {
-		return colServ.getByNom(nom);
-	}
 	
 	/**
 	 * url : [SERVER]/collegue/getMatricule?nom={nom}
-	 * @param nom nom le nom recherché
-	 * @return un json de tous les matricules en bdd correspondant au nom
+	 * @return un json de tous les matricules en bdd 
 	 */
-	@GetMapping("getMatricule")
-	public List<String> getAllMatricules(@RequestParam String nom ) {
-		return colServ.getAllMatricules(nom);
+	@GetMapping("matricule")
+	public List<String> getAllMatricules() {
+		return colServ.getAllMatricules();
 	}
 		
+	/**
+	 * url : [SERVER]/matricule/search?type={type}&value={value}
+	 * @param type type de recherche [id, nom]
+	 * @param value valeur de recherche
+	 * @return une liste de json
+	 */
+	@GetMapping("matricule/search")
+	public List<String> searchMatricule(@RequestParam String type, @RequestParam String value ) {
+
+		List<String> list=new ArrayList<String>();
+		Optional<String> s=null;
+		
+		switch (type) {
+		case "id":
+			
+			s=colServ.getMatriculesById(Integer.parseInt(value));
+			if(s.isPresent()) list.add(s.get());
+			return list;
+			
+		case "nom":
+			s=colServ.getMatriculesByNom(value);
+			if(s.isPresent()) list.add(s.get());
+			return list;
+
+		default:
+			return null;
+		}
+	}
+	
+	
 	
 	/**
-	 * url : [SERVER]/collegue/add
+	 * url : [SERVER]/collegue
 	 * @param collegueDto un objet collegueDto au format json
 	 * @return un objet collegueDto au format json
 	 */
-	@PostMapping("add")
+	@PostMapping("collegue")
 	public ResponseEntity<?> newCollegue(@RequestBody CollegueDto collegueDto) {
 			Collegue newCollegue = colServ.addCollegue(
 					collegueDto.getMatricule(),
@@ -113,7 +143,7 @@ public class CollegueCtrl {
 	 * @param collegueDto un objet collegueDto au format json
 	 * @return un objet collegueDto au format json
 	 */
-	@PutMapping("edit")
+	@PutMapping("collegue")
 	public ResponseEntity<?> editUser(@RequestBody CollegueDto collegueDto) {
 		Collegue editCollegue = colServ.updateCollegue(
 				collegueDto.getId(),
@@ -131,7 +161,7 @@ public class CollegueCtrl {
 	 * @param id id du collegue a remove
 	 * @return une String 
 	 */
-	@DeleteMapping("remove")
+	@DeleteMapping("collegue")
 	public ResponseEntity<?> remUser(@RequestParam Integer id) {
 		return ResponseEntity.ok(colServ.remUser(id));
 		

@@ -1,28 +1,25 @@
 # apiCollegue
 
 # heroku
-lien : https://cql-collegue.herokuapp.com/collegue/
+lien : https://cql-collegue.herokuapp.com/
 
 ## tous les collegues
-lien : https://cql-collegue.herokuapp.com/collegue/all
+lien : https://cql-collegue.herokuapp.com/collegue
 
-## recherche par id
-lien https://cql-collegue.herokuapp.com/collegue/byid?id=xxx
+## recherche de collegue
+lien https://cql-collegue.herokuapp.com/collegue/search?type={[id,matricule,nom]}&value={value}
 
-## recherche collegue par matricule
-lien https://cql-collegue.herokuapp.com/collegue/bymatricule?matricule=xxx
+## tous les matricules
+lien : https://cql-collegue.herokuapp.com/matricule
 
-## recherche collegue par nom
-lien https://cql-collegue.herokuapp.com/collegue/bynom?nom=xxx
-
-## recherche matricule par nom
-lien https://cql-collegue.herokuapp.com/collegue/getMatricule?nom=xxx
+## recherche de matricules
+lien https://cql-collegue.herokuapp.com/matricule/search?type={[id,matricule,nom]}&value={value}
 
 ## ajouter collegue
-lien https://cql-collegue.herokuapp.com/collegue/add
+lien https://cql-collegue.herokuapp.com/collegue/
 
 ## editer un collegue
-lien https://cql-collegue.herokuapp.com/collegue/edit
+lien https://cql-collegue.herokuapp.com/collegue/
 
 ## supprimer un collegue
-lien https://cql-collegue.herokuapp.com/collegue/remove?id=xxx
+lien https://cql-collegue.herokuapp.com/collegue?id=xxx

@@ -49,8 +49,6 @@ public class CollegueService {
 	 * @param matricule le matricule recherché
 	 * @return un objet Collegue correspondant au matricule
 	 */
-
-	
 	public Optional<Collegue> getByMatricule(String matricule) {
 		return colRepo.findByMatricule(matricule);
 	}
@@ -69,10 +67,28 @@ public class CollegueService {
 	 * @param nom le nom recherché
 	 * @return une liste de string de tous les matricules correspondant au nom
 	 */
-	public List<String> getAllMatricules(String nom) {
-		return colRepo.findMatriculeBynom(nom);
+	public List<String> getAllMatricules() {
+		return colRepo.findMatricule();
 	}
 
+	/**
+	 * 
+	 * @param id l'identifiant rechercher
+	 * @return un optional contenant le matricule correspondant a l'id
+	 */
+	public Optional<String> getMatriculesById(Integer id) {
+		return colRepo.findMatriculeById(id);
+	}
+	
+	/**
+	 * 
+	 * @param nom
+	 * @return un optional contenant le matricule correspondant a un nom
+	 */
+	public Optional<String> getMatriculesByNom(String nom) {
+		return colRepo.findMatriculeByNom(nom);
+	}
+		
 	/**
 	 * 
 	 * @param matricule le matricule du collegue à ajouter
