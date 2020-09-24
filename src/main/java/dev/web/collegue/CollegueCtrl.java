@@ -46,7 +46,7 @@ public class CollegueCtrl {
 			if(c.isPresent()) list.add(c.get());
 			return list;	
 		case "matricule":
-			c=colServ.getById(Integer.parseInt(value));
+			c=colServ.getByMatricule(value);
 			if(c.isPresent()) list.add(c.get());
 			return list;
 		case "nom":
