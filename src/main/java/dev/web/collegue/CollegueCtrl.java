@@ -18,15 +18,8 @@ import dev.dto.CollegueDto;
 import dev.entite.Collegue;
 import dev.services.CollegueService;
 
-
-/**
- * controlleur de l'api Collegue
- * @version 0.1
- * @author cql-v2
- *
- */
 @RestController
-@RequestMapping
+@RequestMapping("collegue")
 public class CollegueCtrl {
 
 	private CollegueService colServ;
@@ -35,24 +28,15 @@ public class CollegueCtrl {
 		this.colServ = colServ;
 	}
 
-
-/**
- * url : [SERVER]/collegue
- * @return un json de tous les Collegues en bdd
- */
-	@GetMapping("collegue")
+	
+	@GetMapping
 	public List<Collegue> listCollegue() {
 		return colServ.getList();
 
 	}
 	
-	/**
-	 * url : [SERVER]/collegue/search?type={type}&value={value}
-	 * @param type type de recherche [id, matricule, nom]
-	 * @param value valeur de recherche
-	 * @return une liste de json
-	 */
-	@GetMapping("collegue/search")
+	@GetMapping(params = {"type", "value"})
+	
 	public List<Collegue> getCollegue(@RequestParam String type, @RequestParam String value ) {
 		List<Collegue> list=new ArrayList<Collegue>();
 		Optional<Collegue> c=null;
@@ -76,74 +60,21 @@ public class CollegueCtrl {
 		}
 	}
 	
-	
-	
-	
-	/**
-	 * url : [SERVER]/collegue/getMatricule?nom={nom}
-	 * @return un json de tous les matricules en bdd 
-	 */
-	@GetMapping("matricule")
-	public List<String> getAllMatricules() {
-		return colServ.getAllMatricules();
-	}
-		
-	/**
-	 * url : [SERVER]/matricule/search?type={type}&value={value}
-	 * @param type type de recherche [id, nom]
-	 * @param value valeur de recherche
-	 * @return une liste de json
-	 */
-	@GetMapping("matricule/search")
-	public List<String> searchMatricule(@RequestParam String type, @RequestParam String value ) {
-
-		List<String> list=new ArrayList<String>();
-		Optional<String> s=null;
-		
-		switch (type) {
-		case "id":
-			
-			s=colServ.getMatriculesById(Integer.parseInt(value));
-			if(s.isPresent()) list.add(s.get());
-			return list;
-			
-		case "nom":
-			s=colServ.getMatriculesByNom(value);
-			if(s.isPresent()) list.add(s.get());
-			return list;
-
-		default:
-			return null;
-		}
-	}
-	
-	
-	
-	/**
-	 * url : [SERVER]/collegue
-	 * @param collegueDto un objet collegueDto au format json
-	 * @return un objet collegueDto au format json
-	 */
-	@PostMapping("collegue")
+	@PostMapping
 	public ResponseEntity<?> newCollegue(@RequestBody CollegueDto collegueDto) {
 			Collegue newCollegue = colServ.addCollegue(
-					collegueDto.getMatricule(),
 					collegueDto.getNom(),
 					collegueDto.getPrenom(),
 					collegueDto.getEmail(),
 					collegueDto.getDateNaissance(),
 					collegueDto.getPhotoUrl()
 					);
-			newCollegue.setId(newCollegue.getId());
+			
 			return ResponseEntity.ok(newCollegue);
 	}
 	
-	/**
-	 * 
-	 * @param collegueDto un objet collegueDto au format json
-	 * @return un objet collegueDto au format json
-	 */
-	@PutMapping("collegue")
+
+	@PutMapping
 	public ResponseEntity<?> editUser(@RequestBody CollegueDto collegueDto) {
 		Collegue editCollegue = colServ.updateCollegue(
 				collegueDto.getId(),
@@ -156,17 +87,9 @@ public class CollegueCtrl {
 				);
 		return ResponseEntity.ok(editCollegue);
 	}
-	/**
-	 * 
-	 * @param id id du collegue a remove
-	 * @return une String 
-	 */
-	@DeleteMapping("collegue")
+
+	@DeleteMapping
 	public ResponseEntity<?> remUser(@RequestParam Integer id) {
-		return ResponseEntity.ok(colServ.remUser(id));
-		
+		return ResponseEntity.ok(colServ.remUser(id));	
 	}
-	
-	
-	
 }
