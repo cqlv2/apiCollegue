@@ -1,19 +1,36 @@
 package dev.dto;
-
 import java.time.LocalDate;
-/**
- * 
- * @author cql-v2
- *
- */
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class CollegueDto {
 
 	private Integer id=null;
-	private String matricule;
+	private String matricule=null;
+	
+	@NotNull
+	@NotBlank
+	@Size(max = 50)
 	private String nom;
+	
+	@NotNull
+	@NotBlank
+	@Size(max = 50)
 	private String prenom;
+	
+	@NotNull
+	@NotBlank
 	private String email;
+	
+	@NotNull
+	@Past
     private LocalDate dateNaissance;
+	
+	@NotBlank
+	@NotNull
 	private String photoUrl;
 	
 	public CollegueDto(Integer id, String matricule, String nom, String prenom, String email, LocalDate dateNaissance,
@@ -27,6 +44,8 @@ public class CollegueDto {
 		this.photoUrl = photoUrl;
 	}
 
+	
+//	getteur setteur
 	public Integer getId() {
 		return id;
 	}
